@@ -70,11 +70,21 @@ luuk = Player("Luuk")
 luuk.draw(deck)
 luuk.showHand()
 
+class Dealer:
+    def __init__(self):
+        self.hand = []
 
+    def draw(self, deck):
+        self.hand.append(deck.drawCard())
+        return self
+
+    def showHand(self):
+        for card in self.hand:
+            card.show()
 
 class PlayerMoney():
 
-    def __init__(self, player, balance=100):
+    def __init__(self, player, balance = 0):
 
         self.player = player
         self.balance = balance
@@ -92,3 +102,43 @@ class PlayerMoney():
     def add_to_player_balance(self, deposit_amount):
 
         self.balance = self.balance + deposit_amount
+
+    def __str__(self):
+
+        return f"The player is {self.player} and the balance is {self.balance}"
+
+# PAYMENT PROCESS, INITIALIZE THE PLAYER
+player1 = PlayerMoney("Luuk", 100)
+print(player1)
+
+# PAYMENT PROCESS, PLAYER WINS (BJ OR > THAN BANK)
+player1.player_wins(100)
+print(player1)
+
+# PAYMENT PROCESS, PLAYER LOSES (BUST, < THAN BANK OR BANK HAS BJ)
+player1.player_loses(100)
+print(player1)
+
+# PAYMENT PROCESS, IF BALANCE REACHES 0, PLAYER CAN MAKE DEPOSIT
+player1.add_to_player_balance(99)
+print(player1)
+
+def take_bet():
+
+    bet = 0
+
+    bet = int(input("Please place your bet: "))
+
+    if bet >= PlayerMoney.balance(#here should go something???):
+        return f"Sorry, you can't place a bet that is higher than your balance"
+
+    else:
+        return bet
+
+take_bet(100)
+
+def player_win_check():
+    return Player.showHand(1) == 21 or Player.showHand(1) >= Dealer.showHand(1) and not 21
+
+def bust():
+    return Player.showHand(1) or Dealer.showHand(1) >= 21
