@@ -16,59 +16,103 @@
 # Face cards == value 10
 # Aces can count as either 1 or 11
 
-
 import random
 
-class Card:
-    def __init__(self, suit, value):
+suits = ["Spades", "Clubs", "Diamonds", "Hearts"]
+ranks = ("Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace")
+values = {"Two" :2, "Three" :3, "Four" :4, "Five" :5, "Six" :6, "Seven" :7, "Eight" :8, "Nine" :9, "Ten" :10, "Jack" :10, "Queen" :10, "King" :10, "Ace" :11}
+
+class Card():
+
+    def __init__(self, suit, rank):
         self.suit = suit
-        self.value = value
+        self.rank = rank
 
-    def show(self):
-        print("{} of {}".format(self.value, self.suit))
+    def __str__(self):
+        return self.rank + "of " + self.suit
 
-class Deck:
+class Deck():
+
     def __init__(self):
-        self.cards = []
-        self.build()
+        self.deck = []
+        for suit in suits:
+            for rank in ranks:
+                self.deck.append(Card(rank, suit))
 
-    def build(self):
-        for suit in ["Spades", "Clubs", "Diamonds", "Hearts"]:
-            for value in range (1, 14):
-                self.cards.append(Card(suit, value))
+    def __str__(self):
+        full_deck = ""
+        for card in self.deck:
+            full_deck += "\n" + card.__str__()
+        return "This is the deck" + full_deck
 
-    def show(self):
-        for card in self.cards:
-            card.show()
 
     def shuffle(self):
-        for i in range(len(self.cards) - 1, 0, -1):
-            res = random.randint(0, i)
-            self.cards[i], self.cards[res] = self.cards[res], self.cards[i]
+        random.shuffle(self.deck)
 
-    def drawCard(self):
-        return self.cards.pop(-51)
+    def deal_card(self):
+        single_card = self.deck.pop()
+        return single_card
+
+test_deck = Deck()
+test_deck.shuffle()
+print(test_deck)
+
+single_card = test_deck.deal_card()
+print(single_card)
 
     
-class Player:
-    def __init__(self, name):
-        self.name = name
-        self.hand = []
+class Hand():
+    
+    def __init__(self):
+        self.cards = []
+        self.value = 0
+        self.aces = 0
 
-    def draw(self, deck):
-        self.hand.append(deck.drawCard())
-        return self
+    def add_card(self, card):
+        self.cards.append(card)
+        self.value += values[card.rank]
 
-    def showHand(self):
-        for card in self.hand:
-            card.show()
+        if card.rank == "Ace":
+            self.aces += 1
 
-deck = Deck()
-deck.shuffle()
+    def adjust_for_ace(self):
 
-luuk = Player("Luuk")
-luuk.draw(deck)
-luuk.showHand()
+        while self.value > 21 and self.aces:
+            self.value -= 10
+            self.aces -= 1
+
+class Chips():
+    
+    def __init__(self):
+        self.total = 100  # This can be set to a default value or supplied by a user input
+        self.bet = 0
+        
+    def win_bet(self):
+        self.total += self.bet
+    
+    def lose_bet(self):
+        self.total -= self.bet
+
+
+# class Player:
+#     def __init__(self, name):
+#         self.name = name
+#         self.hand = []
+
+#     def draw(self, deck):
+#         self.hand.append(deck.drawCard())
+#         return self
+
+#     def showHand(self):
+#         for card in self.hand:
+#             card.show()
+
+# deck = Deck()
+# deck.shuffle()
+
+# luuk = Player("Luuk")
+# luuk.draw(deck)
+# luuk.showHand()
 
 class Dealer:
     def __init__(self):
@@ -82,15 +126,23 @@ class Dealer:
         for card in self.hand:
             card.show()
 
-class PlayerMoney():
+class Player:
 
-    def __init__(self, player, balance = 0):
+    def __init__(self, player, balance):
 
-        self.player = player
+        self.player =  player
         self.balance = balance
+        self.hand = []
+
+    def draw(self, deck):
+        self.hand.append(deck.drawCard())
+        return self
+
+    def showHand(self):
+        for card in self.hand:
+            card.show()
 
     def player_wins(self, won_amount):
-
         self.balance = self.balance + won_amount
         print("Congratiulations you won ${}".format(won_amount))
 
@@ -107,8 +159,32 @@ class PlayerMoney():
 
         return f"The player is {self.player} and the balance is {self.balance}"
 
+    def place_bet(self, bet):
+
+        if self.balance >= bet:
+            self.balance = self.balance - bet
+            print("You placed a bet of ${} and your remaining balance is ${}".format(bet, self.balance))
+
+        else:
+            print("Sorry, you can't place a bet that is higher than your balance, place a lower bet.")
+
+
+    def get_card(self, card):
+        pass
+
+    def hit_card(self, card):
+        pass
+
+    def hit_again(self, card):
+        pass
+
+    def make_up_balance(self, won_amount, los_amount, balance):
+        pass
+
+
+
 # PAYMENT PROCESS, INITIALIZE THE PLAYER
-player1 = PlayerMoney("Luuk", 100)
+player1 = Player("Luuk", 100)
 print(player1)
 
 # PAYMENT PROCESS, PLAYER WINS (BJ OR > THAN BANK)
@@ -123,22 +199,11 @@ print(player1)
 player1.add_to_player_balance(99)
 print(player1)
 
-def take_bet():
+# PAYMENT PROCESS, PLAYER CANNOT MAKE BET HIGHER THAN BALANCE
+player1.place_bet(20)
+# def player_win_check(self):
+#     if Player.showHand(1) == 21 or Player.showHand(1) >= Dealer.showHand(1):
+#         return "You won"
 
-    bet = 0
-
-    bet = int(input("Please place your bet: "))
-
-    if bet >= PlayerMoney.balance(#here should go something???):
-        return f"Sorry, you can't place a bet that is higher than your balance"
-
-    else:
-        return bet
-
-take_bet(100)
-
-def player_win_check():
-    return Player.showHand(1) == 21 or Player.showHand(1) >= Dealer.showHand(1) and not 21
-
-def bust():
-    return Player.showHand(1) or Dealer.showHand(1) >= 21
+# def bust():
+#     return Player.showHand(1) or Dealer.showHand(1) >= 21
