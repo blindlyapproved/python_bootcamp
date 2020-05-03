@@ -1,3 +1,5 @@
+# How much tile for your money
+
 def tile_cost():
 
     cost = float(input("What's your available budget? "))
@@ -9,4 +11,3 @@ def tile_cost():
     print(f"With your budget of ${cost} you can lay {surface_for_budget} of squaremeters")
 
 tile_cost()
-
