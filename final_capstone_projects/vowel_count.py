@@ -8,7 +8,7 @@ def vowel_count():
     count_o = 0
     count_u = 0
 
-    string = input("Let me count the vowels for your string. Insert your string here: ")
+    string = input("Let me count the vowels for your string. Insert your string here: ").lower()
 
     for char in string:
         if char in "a":
