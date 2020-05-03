@@ -1,6 +1,8 @@
+# Find Cost of Tile to Cover W x H Floor
+
 def cost_tile():
 
-    price_per_sqm = 10
+    price_per_sqm = 10.45
 
     w = float(input("What is the width of your floor? "))
     h = float(input("And what's the height? "))
@@ -10,6 +12,3 @@ def cost_tile():
     print("The cost for this floor would be $",customer_cost)
 
 cost_tile()
-
-
-
