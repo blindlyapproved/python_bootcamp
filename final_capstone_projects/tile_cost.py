@@ -2,7 +2,7 @@
 
 def cost_tile():
 
-    price_per_sqm = 10.45
+    price_per_sqm = 10.00
 
     w = float(input("What is the width of your floor? "))
     h = float(input("And what's the height? "))
