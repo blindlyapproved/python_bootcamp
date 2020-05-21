@@ -30,7 +30,8 @@ def coinflip():
             print("\nThanks for playing.")
             print("\nFinal score:")
             print(f"Heads score: {score_heads}")
-            print(f"\nTails score: {score_tails}")
+            print(f"Tails score: {score_tails}")
+            print("\n")
             exit()
 
 coinflip()
