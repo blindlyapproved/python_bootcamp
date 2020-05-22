@@ -23,8 +23,9 @@ def coinflip():
         print(f"Tails score: {score_tails}")
 
         again = input("\nWant to play again? Yes or No:   ").lower()
+        res = again[0]
 
-        if again == "y":
+        if res == "y":
             continue
         else:
             print("\nThanks for playing.")
